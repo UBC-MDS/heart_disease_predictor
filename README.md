@@ -1,36 +1,59 @@
-
 ## Diagnosis of Heart Disease
 
 ---
-Contributors: 
+### Contributors and Maintainers
 - [Natalie Cho](https://github.com/Natalie-cho)
 - [Yurui Feng](https://github.com/Yurui-Feng)
 - [Elena Ganacheva](https://github.com/elenagan)
 - [Tony Zoght](https://github.com/tzoght)
 
-For this projec we will be using the [Heart Disease UCI](https://www.kaggle.com/ronitf/heart-disease-uci) dataset from UC Irvine Machine Learning Repository to answer the question: given common early signs from  chest pain to resting ECG, can we predict the presence of heart disease  ?
 
-Answering this such question will help in the early detection of heart disease, which is the leading cause of death in the world [ref-1](https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm). 
+### Proposal
 
+For this project, we will be using the [Heart Disease UCI](https://www.kaggle.com/ronitf/heart-disease-uci) dataset from the UC Irvine Machine Learning Repository to answer the question: given common early signs, from chest pain to resting ECG, can we predict the presence of heart disease?
 
-The dataset contains 303 rows and 14 columns. The dataset contains 13 features and 1 target variable. The target variable is the diagnosis of heart disease (angiographic disease status) and the value 0 is for no diagnosis of heart disease and the value 1 is for the diagnosis of heart disease. The 13 features are as follows:
-- age
-- sex
-- chest pain type (4 values)
-- resting blood pressure
-- serum cholestoral in mg/dl
-- fasting blood sugar > 120 mg/dl
-- resting electrocardiographic results (values 0,1,2)
-- maximum heart rate achieved
-- exercise induced angina
-- oldpeak = ST depression induced by exercise relative to rest
-- the slope of the peak exercise ST segment
-- number of major vessels (0-3) colored by flourosopy
-- thal: 0 = normal; 1 = fixed defect; 2 = reversable defect
-- The names and social security numbers of the patients were recently removed from the database, replaced with dummy values.
+Answering this question will help in the early detection of heart disease, which is the leading cause of death in the world [ref-1](https://www.cdc.gov/nchs/fastats/leading-causes-of-death.htm).
 
+The dataset contains 303 rows and 14 columns with 13 features and 1 target variable. The target variable is the diagnosis of heart disease (angiographic disease status), and the value 0 is for no diagnosis of heart disease and the value 1 is for the diagnosis of heart disease.
+The 13 features are as follows:
+- Age
+- Sex
+- Chest pain type
+- Resting blood pressure
+- Serum cholestoral
+- Fasting blood sugar
+- Resting electrocardiographic
+- Maximum heart rate achieved
+- Exercise induced angina
+- Oldpeak = ST depression induced by exercise relative to rest
+- The slope of the peak exercise ST segment
+- Number of major vessels 
+- Thalassemia blood disorder
 
-To answer the predictive question posed above, we will be explore using different classifiers to predict the presence of heart disease, such as Logistic Regression, K-Nearest Neighbors, Decision Tree, and Support Vector Machine. We will also be using the following metrics to evaluate the performance of the models: accuracy, precision, recall, and F1 score.
+### Methodology
 
-Before jumping into finding the best model and hyperparameters, we will be exploring the data to see if there are any missing values, outliers, and if there are any correlations between the features. We will also be using the following visualizations to explore the data: bar charts, histograms, and scatter plots.
-All the reports, conclusions and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html files.
+To answer the predictive question posed above, we will explore using different classifiers to predict the presence of heart disease, such as Logistic Regression, K-Nearest Neighbors, Decision Tree, and Support Vector Machine. We will also use the accuracy, precision, recall, and F1 score to judge how well the models work.
+
+Before jumping into finding the best model and hyperparameters, we will be exploring the data to see if there are any missing values, outliers, and if there are any correlations between the features. We will also use bar charts, histograms, and scatter plots to look at the data and learn more about it.
+
+### Sharing the results
+All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html files.
+
+### Reproducibility
+To replicate this anylysis, you will need to clone this repository and install the following packages:
+- pandas
+- ...
+
+To download the data, you will need to download the data from the UC Irvine Machine Learning Repository. For your convenience, we have included the data in the data folder of this repository, in addition we have included a script to download the data from the repository.
+```
+python src/utils/fetch_dataset.py 
+```
+
+### License
+Artifacts in this repository are [licensed](LICENSE) under the Attribution-NonCommercial-NoDerivatives 4.0 International, also known as CC BY-NC-ND 4.0.
+
+### Contributing
+We welcome contributions to this project. Please see our [contributing guidelines](CONTRIBUTING.md) for more information.
+
+### Code of Conduct
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
