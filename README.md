@@ -36,10 +36,18 @@ To answer the predictive question posed above, we will explore using different c
 
 Before jumping into finding the best model and hyperparameters, we will be exploring the data to see if there are any missing values, outliers, and if there are any correlations between the features. We will also use bar charts, histograms, and scatter plots to look at the data and learn more about it.
 
-
 ### Sharing the results
 All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html files.
 
+### Reproducibility
+To replicate this anylysis, you will need to clone this repository and install the following packages:
+- pandas
+- ...
+
+To download the data, you will need to download the data from the UC Irvine Machine Learning Repository. For your convenience, we have included the data in the data folder of this repository, in addition we have included a script to download the data from the repository.
+```
+python src/utils/fetch_dataset.py 
+```
 
 ### License
 Artifacts in this repository are [licensed](LICENSE) under the Attribution-NonCommercial-NoDerivatives 4.0 International, also known as CC BY-NC-ND 4.0.
