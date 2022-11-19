@@ -30,6 +30,21 @@ The 13 features are as follows:
 - Number of major vessels 
 - Thalassemia blood disorder
 
+They are encoded in the dataset as follows:
+- #3 (age)
+- #4 (sex)
+- #9 (cp)
+- #10 (trestbps)
+- #12 (chol)
+- #16 (fbs)
+- #19 (restecg)
+- #32 (thalach)
+- #38 (exang)
+- #40 (oldpeak)
+- #41 (slope)
+- #44 (ca)
+- #51 (thal)
+- #58 (num) (the predicted attribute)
 ### Methodology
 
 To answer the predictive question posed above, we will explore using different classifiers to predict the presence of heart disease, such as Logistic Regression, K-Nearest Neighbors, Decision Tree, and Support Vector Machine. We will also use the accuracy, precision, recall, and F1 score to judge how well the models work.
@@ -40,9 +55,11 @@ Before jumping into finding the best model and hyperparameters, we will be explo
 All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html files.
 
 ### Reproducibility
-To replicate this anylysis, you will need to clone this repository and install the following packages:
+To replicate this analysis, you will need to clone this repository and install the following packages:
 - pandas
-- ...
+- numpy
+- sklearn
+- altair
 
 To download the data, you will need to download the data from the UC Irvine Machine Learning Repository. For your convenience, we have included the data in the data folder of this repository, in addition we have included a script to download the data from the repository.
 ```
