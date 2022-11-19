@@ -3,8 +3,8 @@
 ### Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as
-contributors and maintainers pledge to make participation in our project a harassment-free experience.
-for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, or level of experience,
+contributors and maintainers pledge to make participation in our project a harassment-free experience
+for everyone, regardless of age, body size, disability, ethnicity, gender identity and expression, level of experience,
 nationality, personal appearance, race, religion, or sexual identity and
 orientation.
 
@@ -36,8 +36,8 @@ behavior and are expected to take appropriate and fair corrective action in
 response to any instances of unacceptable behavior.
 
 Project maintainers have the right and responsibility to remove, edit, or
-reject comments, commits, code, wiki edits, issues, and other contributions.
-that are not aligned with this Code of Conduct, or to ban them temporarily or
+reject comments, commits, code, wiki edits, issues, and other contributions
+that are not aligned with this Code of Conduct, or to ban temporarily or
 permanently any contributor for other inappropriate behaviors,
 threatening, offensive, or harmful.
 
