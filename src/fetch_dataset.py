@@ -30,15 +30,30 @@ default_to = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, "data
 
 opt = docopt(__doc__)
 
-def main(from_url, to_path):
+def fetch_dataset(from_url, to_file_path):
+    """
+    This function will download the dataset from the default url to the default path
+
+    Parameters
+    ----------
+    from_url : str
+        URL from where to download the dataset (must be in standard csv format)
+        If not provided, the default url will be used 
+    to_file_path : str
+        Path (including filename) of where to locally write the file
+        If not provided, the default path will be used 
+    """
     if (from_url is None):
         from_url = default_from
-    if (to_path is None):
-        to_path = default_to
-    print(f"Downloading dataset from {from_url} to {to_path}")
+    if (to_file_path is None):
+        to_file_path = default_to
+    print(f"Downloading dataset from {from_url} to {to_file_path}")
     data = pd.read_csv(from_url, header=None)
-    os.makedirs(os.path.dirname(to_path),exist_ok=True)
-    data.to_csv(to_path, index = False)
+    os.makedirs(os.path.dirname(to_file_path),exist_ok=True)
+    data.to_csv(to_file_path, index = False, header=False)
+
+def main(from_url, to_path):
+    fetch_dataset(from_url, to_path)
  
 if __name__ == "__main__":
   main(opt["--from"], opt["--to"])
