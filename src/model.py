@@ -23,6 +23,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.dummy import DummyClassifier
 
+
 default_training = os.path.join(os.path.dirname(__file__), os.pardir, "data", "processed", "train_heart.csv")
 default_test = os.path.join(os.path.dirname(__file__), os.pardir, "data", "processed", "test_heart.csv")
 default_to = os.path.join(os.path.dirname(__file__), os.pardir, "results")
@@ -51,6 +52,7 @@ def model(training_path, test_path, to_path):
 
     numeric_features = ["age", "resting_blood_pressure", "cholesterol", "max_hr_achieved", "oldpeak"]
     passthrough_features = ["sex", "chest_pain_type", "fasting_blood_sugar", "resting_ecg_results", "exercise_induced_angina", "slope", "num_major_vessels", "thalassemia"]
+
     preprocessor = make_column_transformer(
         (StandardScaler(), numeric_features),
         ("passthrough", passthrough_features)
@@ -77,6 +79,7 @@ def model(training_path, test_path, to_path):
 
     results_df = pd.concat(results, axis='columns')
     results_df.to_csv(os.path.join(to_path,"model_selection_results.csv"),index = True, header=results_df.columns)
+
 
 def main(training_path, test_path, to_path):
     model(training_path, test_path, to_path)
