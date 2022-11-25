@@ -1,0 +1,10 @@
+title: "Heart Disease Prediction"
+page_titles: true
+execute:
+  execute_notebooks: "force"
+# In _config.yml
+bibtex_bibfiles:
+    - references.bib
+sphinx:
+  config:
+    bibtex_reference_style: author_year

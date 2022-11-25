@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 .history
+_build
+.DS_Store
