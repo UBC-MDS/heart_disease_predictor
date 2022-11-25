@@ -87,7 +87,7 @@ def model(training_path, test_path, to_path):
         "svc__gamma": loguniform(1e-3, 1e3)  
     }
 
-    random_search = RandomizedSearchCV(pipe_svm, param_distributions=param_dist, n_jobs=-1, n_iter=20, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
+    random_search = RandomizedSearchCV(pipe_svm, param_distributions=param_dist, n_jobs=-1, n_iter=50, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
     random_search.fit(X_train, y_train)
     optim_results_df = pd.DataFrame(random_search.cv_results_)[
         [
@@ -114,7 +114,7 @@ def model(training_path, test_path, to_path):
     ].set_index("rank_test_f1").sort_index().T
 
     print(f"The best parameters were {random_search.best_params_}")
-
+    
     optim_results_df.to_csv(os.path.join(to_path,"optimization_results.csv"),index = True, header=optim_results_df.columns)
     
     test_f1_score = random_search.score(X_test, y_test)
