@@ -83,16 +83,18 @@ def model(training_path, test_path, to_path):
     results_df.to_csv(os.path.join(to_path,"model_selection_results.csv"),index = True, header=results_df.columns)
 
     param_dist ={
-        "logisticregression__C": loguniform(1e-3, 1e3) 
+        "svc__C": loguniform(1e-3, 1e3),
+        "svc__gamma": loguniform(1e-3, 1e3)  
     }
 
-    random_search = RandomizedSearchCV(pipe_lr, param_distributions=param_dist, n_jobs=-1, n_iter=20, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
+    random_search = RandomizedSearchCV(pipe_svm, param_distributions=param_dist, n_jobs=-1, n_iter=20, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
     random_search.fit(X_train, y_train)
     optim_results_df = pd.DataFrame(random_search.cv_results_)[
         [
             "mean_fit_time",
             "mean_score_time",
-            "param_logisticregression__C",
+            "param_svc__C",
+            "param_svc__gamma",
             "mean_test_f1",
             "std_test_f1",
             "rank_test_f1",
@@ -110,6 +112,8 @@ def model(training_path, test_path, to_path):
             "std_train_precision"   
         ]
     ].set_index("rank_test_f1").sort_index().T
+
+    print(f"The best parameters were {random_search.best_params_}")
 
     optim_results_df.to_csv(os.path.join(to_path,"optimization_results.csv"),index = True, header=optim_results_df.columns)
     
