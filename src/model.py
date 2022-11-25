@@ -39,7 +39,7 @@ def model(training_path, test_path, to_path):
         test_path = default_test
     if (to_path is None):
         to_path = default_to
-    print("\nTraining the model(s): to be implemented ...")
+    print("\nTraining the model(s):")
     print(f"Reading training data from {training_path}")
     print(f"Reading test data from {test_path}")
     print(f"Saving model artifacts to {to_path}")
@@ -120,7 +120,7 @@ def model(training_path, test_path, to_path):
     random_search, X_test, y_test, values_format="d", display_labels = ["No Heart Disease", "Heart Disease"]
     )
 
-    cm.to_png(os.path.join(to_path,"confusion_matrix.png"))
+    cm.figure_.savefig(os.path.join(to_path,"confusion_matrix.png"))
 
 def main(training_path, test_path, to_path):
     model(training_path, test_path, to_path)
