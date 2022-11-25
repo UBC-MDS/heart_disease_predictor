@@ -15,13 +15,15 @@ Options:
 from docopt import docopt
 import os
 import pandas as pd
-from sklearn.model_selection import train_test_split, cross_validate
+from scipy.stats import loguniform
+from sklearn.model_selection import train_test_split, cross_validate, RandomizedSearchCV
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.dummy import DummyClassifier
+from sklearn.metrics import ConfusionMatrixDisplay
 
 
 default_training = os.path.join(os.path.dirname(__file__), os.pardir, "data", "processed", "train_heart.csv")
@@ -80,6 +82,45 @@ def model(training_path, test_path, to_path):
     results_df = pd.concat(results, axis='columns')
     results_df.to_csv(os.path.join(to_path,"model_selection_results.csv"),index = True, header=results_df.columns)
 
+    param_dist ={
+        "logisticregression__C": loguniform(1e-3, 1e3) 
+    }
+
+    random_search = RandomizedSearchCV(pipe_lr, param_distributions=param_dist, n_jobs=-1, n_iter=20, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
+    random_search.fit(X_train, y_train)
+    optim_results_df = pd.DataFrame(random_search.cv_results_)[
+        [
+            "mean_fit_time",
+            "mean_score_time",
+            "param_logisticregression__C",
+            "mean_test_f1",
+            "std_test_f1",
+            "rank_test_f1",
+            "mean_train_f1",
+            "std_train_f1",
+            "mean_test_recall",
+            "std_test_recall",
+            "rank_test_recall",
+            "mean_train_recall",
+            "std_train_recall",
+            "mean_test_precision",
+            "std_test_precision",
+            "rank_test_precision",
+            "mean_train_precision",
+            "std_train_precision"   
+        ]
+    ].set_index("rank_test_f1").sort_index().T
+
+    optim_results_df.to_csv(os.path.join(to_path,"optimization_results.csv"),index = True, header=optim_results_df.columns)
+    
+    test_f1_score = random_search.score(X_test, y_test)
+    print(f"The test f1 score was {test_f1_score}")
+
+    cm = ConfusionMatrixDisplay.from_estimator(
+    random_search, X_test, y_test, values_format="d", display_labels = ["No Heart Disease", "Heart Disease"]
+    )
+
+    cm.to_png(os.path.join(to_path,"confusion_matrix.png"))
 
 def main(training_path, test_path, to_path):
     model(training_path, test_path, to_path)
