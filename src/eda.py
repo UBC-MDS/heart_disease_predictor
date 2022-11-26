@@ -18,8 +18,8 @@ from docopt import docopt
 import os
 import pandas as pd
 import altair as alt
+import vl_convert as vlc
 
-alt.data_transformers.enable("data_server")
 alt.renderers.enable("mimetype")
 
 opt = docopt(__doc__)
@@ -39,7 +39,6 @@ def eda(from_path, to_path):
     # read train_df.csv
     train_df = pd.read_csv(from_path + "/train_heart.csv")
     test_df = pd.read_csv(from_path + "/test_heart.csv")
-
     # create split count talbe
     class_count = pd.concat(
         [
@@ -79,10 +78,25 @@ def eda(from_path, to_path):
         )
     )
 
-    combined_corr = (corr_plot + text).properties(height=300, width=300)
+    combined_corr = (corr_plot + text).properties(height=600, width=600)
     # Analysis of numeric feature distributions
-    numeric_cols = ["age", "trestbps", "chol", "thalach", "oldpeak"]
-    cate_cols = ["sex", "cp", "fbs", "restecg", "exang", "slope", "ca", "thal"]
+    numeric_cols = [
+        "age",
+        "resting_blood_pressure",
+        "cholesterol",
+        "max_hr_achieved",
+        "oldpeak",
+    ]
+    cate_cols = [
+        "sex",
+        "chest_pain_type",
+        "fasting_blood_sugar",
+        "resting_ecg_results",
+        "exercise_induced_angina",
+        "slope",
+        "num_major_vessels",
+        "thalassemia",
+    ]
 
     numeric_dist = (
         alt.Chart(train_df)
@@ -95,7 +109,7 @@ def eda(from_path, to_path):
         .properties(height=200, width=200)
         .repeat(numeric_cols, columns=3)
     )
-    numeric_dist.properties(title="Distribution of Numeric")
+    numeric_dist = numeric_dist.properties(title="Distribution of Numeric Features")
 
     # Analysis of categorical feature distributions
     cate_dist = (
@@ -105,7 +119,7 @@ def eda(from_path, to_path):
         .properties(height=200, width=200)
         .repeat(cate_cols, columns=3)
     )
-    cate_dist.properties(title="Distribution of Categorical Features")
+    cate_dist = cate_dist.properties(title="Distribution of Categorical Features")
 
     # `thalach` vs `oldpeak` for the two target classes
     thalach_age_plot = (
@@ -113,13 +127,17 @@ def eda(from_path, to_path):
         .mark_circle()
         .encode(
             x=alt.X("age", scale=alt.Scale(zero=False), title="Age"),
-            y=alt.Y("thalach", scale=alt.Scale(zero=False), title="Maximum heart rate"),
+            y=alt.Y(
+                "max_hr_achieved",
+                scale=alt.Scale(zero=False),
+                title="Maximum heart rate",
+            ),
             color=alt.Color("target:N", title="Presence of HD"),
         )
     )
     combined_thalach = thalach_age_plot + thalach_age_plot.mark_line(
         size=3
-    ).transform_regression("age", "thalach", groupby=["target"])
+    ).transform_regression("age", "max_hr_achieved", groupby=["target"])
 
     # Plotting the correlations
     corr_viz = (
@@ -135,7 +153,31 @@ def eda(from_path, to_path):
         .properties(height=170, width=170)
         .repeat(column=numeric_cols, row=numeric_cols)
     )
-    corr_viz.properties(title="Correlation Plot of Numeric Features")
+    corr_viz = corr_viz.properties(title="Scatter Plot of Numeric Feature Pairs")
+
+    # function provided by Dr. Joel Ostblom
+    def save_chart(chart, filename, scale_factor=1):
+        """
+        Save an Altair chart using vl-convert
+
+        Parameters
+        ----------
+        chart : altair.Chart
+            Altair chart to save
+        filename : str
+            The path to save the chart to
+        scale_factor: int or float
+            The factor to scale the image resolution by.
+            E.g. A value of `2` means two times the default resolution.
+        """
+        if filename.split(".")[-1] == "svg":
+            with open(filename, "w") as f:
+                f.write(vlc.vegalite_to_svg(chart.to_dict()))
+        elif filename.split(".")[-1] == "png":
+            with open(filename, "wb") as f:
+                f.write(vlc.vegalite_to_png(chart.to_dict(), scale=scale_factor))
+        else:
+            raise ValueError("Only svg and png formats are supported")
 
     plot_list = [combined_corr, numeric_dist, cate_dist, combined_thalach, corr_viz]
     plot_names = [
@@ -146,9 +188,9 @@ def eda(from_path, to_path):
         "correlation_scatter",
     ]
     for plot, name in zip(plot_list, plot_names):
-        plot_name = f"{to_path}/{name}.svg"
-        print(plot_name)
-        plot.save(plot_name, scale_factor=2)
+        plot_name = f"{to_path}/{name}.png"
+        print(f"saving: {name}")
+        save_chart(plot, plot_name, 2)
 
     print(f"Saving EDA artifacts to {to_path}")
 
