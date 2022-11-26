@@ -1,6 +1,5 @@
-## Diagnosis of Heart Disease
+# Diagnosis of Heart Disease
 
----
 ### Contributors and Maintainers
 - [Natalie Cho](https://github.com/Natalie-cho)
 - [Yurui Feng](https://github.com/Yurui-Feng)
@@ -62,8 +61,10 @@ This repository is structured as follows:
 ├── CONTRIBUTING.md
 ├── LICENSE
 ├── README.md
+├── book.pdf
 ├── data
 ├── doc
+├── docs
 ├── environment.yml
 ├── results
 └── src
@@ -75,19 +76,20 @@ Before you can start, make sure to install all the dependencies required and rea
 $ conda env create -f environment.yml
 $ conda activate env_heart_disease_prediction
 ```
-* **If you do not have conda installed**, you can install the dependencies which are listed in the [`environment.yml`](environment.yml) file using pip. The dependencies are:
+* **If you do not have conda installed**, you can install the dependencies which are listed in the [`environment.yml`](environment.yml) file using pip. The dependencies are (for versions not specifically mentioned, the latest is implied):
    
 ```
-  - scikit-learn[version='>=0.23.1']
-  - pandas[version='>=1.5']
-  - jupyter-book
-  - python[version='>=3.9']
-  - jupyterlab
-  - pip[version='>=20']
-  - altair[version='>=4.1.0']
-  - jupyter_contrib_nbextensions
+  - pandas>=1.5
+  - python>=3.9
+  - pip>=20
+  - scikit-learn>=0.23.1
+  - altair>=4.1.0
   - altair_saver
-  - matplotlib[version='>=3.2.2']
+  - jupyterlab
+  - jupyter_contrib_nbextensions
+  - jupyter-book
+  - matplotlib>=3.2.2
+  - pyppeteer
 ```
 
 To reproduce the results, and after cloning this repository, please follow these steps below:
@@ -122,15 +124,15 @@ $ python eda.py
 $ python model.py
 ```
 
-**To re-generate the html report**, run the following command in your terminal after changing directory to the `doc` folder:
+**To re-generate the html report**, run the following command in your terminal after changing directory to the `doc` directory:
 
 ```
-$ jupyter-book build . --builder singlehtml
+$ jupyter-book build . --builder pdfhtml
 ```
 
-A new folder called `_build` will be created in the `doc` directory, and inside it you will find the `singlehtml` directory. Open the `index.html`file  it in your browser to view the report.
+A new directory called `_build` will be created in the `doc` directory, and the generated html report will be available in the `_build/pdf` directory.
 
-For your convenience, we have also included the latest version of the [report](results/singlehtml/index.html) in the `results` directory. The report will also be hosted on github pages.
+For your convenience, we have also included the latest version of the [report](book.pdf) in the root directory. 
 
 ### License
 Artifacts in this repository are [licensed](LICENSE) under the Attribution-NonCommercial-NoDerivatives 4.0 International, also known as CC BY-NC-ND 4.0.
