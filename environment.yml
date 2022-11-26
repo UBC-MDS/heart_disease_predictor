@@ -12,6 +12,7 @@ dependencies:
   - jupyter_contrib_nbextensions
   - jupyter-book
   - matplotlib>=3.2.2
+  - pyppeteer
   - pip:
     - docopt-ng
     - vl-convert-python
