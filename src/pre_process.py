@@ -1,6 +1,9 @@
 # author: Tony Zoght
 # date: 2022-11-24
 
+# Uses the docopt for command-line argument parsing and pandas to read the and save the dataset
+# - http://docopt.org/
+
 """
 A utility script to clean and pre-process the dataset used in 
 the heart disease predictor project. 
@@ -18,10 +21,6 @@ Options:
                            If not provided, a default file name and path will be used 
 [--to=<out_file>]          Directory path to save the preprocessed dataset
                            If not provided, a default path will be used 
-                            
-Uses the docopt for command-line argument parsing and pandas to read the and save the dataset
-- http://docopt.org/
-- https://pandas.pydata.org/
 """
 
 from docopt import docopt
@@ -63,23 +62,26 @@ def pre_process(from_file_path, to_dir_path):
         from_file_path = default_from
     if (to_dir_path is None):
         to_dir_path = default_to
-    print(f"Pre-processing dataset from {from_file_path} to {to_dir_path} ...")
+        
+    print(f"\nPre-processing dataset:\nfrom {from_file_path} \nto {to_dir_path}\n...\n")
     df = pd.read_csv(from_file_path)
-    os.makedirs(os.path.dirname(to_dir_path),exist_ok=True)
+    
+    if not os.path.exists(to_dir_path):
+        os.makedirs(to_dir_path)
     
     # renaming the columns to make them more readable
     df = df.rename(columns=column_names_dict)
     train_df, test_df = train_test_split(df, test_size=0.2, random_state=17)
-    print(df.head())
-    print(train_df.head())
-    print(test_df.head())
+    # print(df.head())
+    # print(train_df.head())
+    # print(test_df.head())
     
     # saving to disk
     train_df.to_csv(os.path.join(to_dir_path,"train_heart.csv"), index = False, header=df.columns)
     test_df.to_csv(os.path.join(to_dir_path,"test_heart.csv"),index = False, header=df.columns)
 
 def main(from_file_path, to_dir_path):
-    pre_process(from_file_path, from_file_path)
+    pre_process(from_file_path, to_dir_path)
 
 if __name__ == "__main__":
   main(opt["--from"], opt["--to"])

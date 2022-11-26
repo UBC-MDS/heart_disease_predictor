@@ -1,0 +1,17 @@
+name: 'env_heart_disease_prediction'
+channels:
+  - conda-forge
+dependencies:
+  - pandas>=1.5
+  - python>=3.9
+  - pip>=20
+  - scikit-learn>=0.23.1
+  - altair>=4.1.0
+  - altair_saver
+  - jupyterlab
+  - jupyter_contrib_nbextensions
+  - jupyter-book
+  - matplotlib>=3.2.2
+  - pip:
+    - docopt-ng
+    - vl-convert-python

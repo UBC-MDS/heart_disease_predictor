@@ -1,7 +1,6 @@
 format: jb-article
 root: index
 sections: 
-- file: report_summary
 - file: report_introduction
 - file: report_methods
 - file: report_results

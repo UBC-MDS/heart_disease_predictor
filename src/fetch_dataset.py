@@ -49,7 +49,8 @@ def fetch_dataset(from_url, to_file_path):
         to_file_path = default_to
     print(f"Downloading dataset from {from_url} to {to_file_path}")
     data = pd.read_csv(from_url, header=None)
-    os.makedirs(os.path.dirname(to_file_path),exist_ok=True)
+    if not os.path.exists(to_file_path):
+        os.makedirs(to_file_path)
     data.to_csv(to_file_path, index = False, header=False)
 
 def main(from_url, to_path):
