@@ -26,7 +26,7 @@ import os
 import pandas as pd
 
 default_from = "https://raw.githubusercontent.com/sharmaroshan/Heart-UCI-Dataset/master/heart.csv"
-default_to = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir, "data", "raw", "heart.csv")
+default_to = os.path.join(os.path.dirname(__file__), os.pardir, "data", "raw", "heart.csv")
 
 opt = docopt(__doc__)
 
@@ -51,6 +51,7 @@ def fetch_dataset(from_url, to_file_path):
     data = pd.read_csv(from_url, header=None)
     if not os.path.exists(to_file_path):
         os.makedirs(to_file_path)
+    print(f"Saving dataset to {to_file_path}")
     data.to_csv(to_file_path, index = False, header=False)
 
 def main(from_url, to_path):
