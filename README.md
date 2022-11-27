@@ -1,3 +1,5 @@
+[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml)
+
 # Diagnosis of Heart Disease
 
 ### Contributors and Maintainers
