@@ -2,7 +2,7 @@
 # date: 
 
 """
-A utility script to build and fit ML model(s) ....
+A utility script to build and fit ML model(s)
 
 Usage: model.py [--training=<path to training data set>] [--test=<path to test data set >] [--to=<out_file>]
 
