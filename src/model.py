@@ -2,7 +2,7 @@
 # date: 
 
 """
-A utility script to build and fit ML model(s) ....
+A utility script to build and fit ML model(s)
 
 Usage: model.py [--training=<path to training data set>] [--test=<path to test data set >] [--to=<out_file>]
 
@@ -23,7 +23,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.dummy import DummyClassifier
-from sklearn.metrics import ConfusionMatrixDisplay
+from sklearn.metrics import ConfusionMatrixDisplay, f1_score
 
 
 default_training = os.path.join(os.path.dirname(__file__), os.pardir, "data", "processed", "train_heart.csv")
@@ -32,25 +32,31 @@ default_to = os.path.join(os.path.dirname(__file__), os.pardir, "results")
 
 opt = docopt(__doc__)
 
-def model(training_path, test_path, to_path):
+def model(training_path, to_path):
+    """
+    Function that first preprocesses the data, then conducts model selection between SVC and logistic regression, 
+    and finally conducts hyperparmeter optimization using RandomSearch.
+
+    Parameters
+    ----------
+    training_path : str
+        Path to training data [default: default_training]
+    to_path : str
+        Path to save the training results [default: default_to]
+
+    Returns
+    ----------
+    random_search: sklearn estimator
+        Fitted model with best parameters based on top f1 score using RandomSearch
+    """
     if (training_path is None):
         training_path = default_training
-    if (test_path is None):
-        test_path = default_test
     if (to_path is None):
         to_path = default_to
     print("\nTraining the model(s):")
     print(f"Reading training data from {training_path}")
-    print(f"Reading test data from {test_path}")
-    print(f"Saving model artifacts to {to_path}")
     
     train_df = pd.read_csv(training_path)
-    test_df = pd.read_csv(test_path)
-
-    # age,sex,chest_pain_type,resting_blood_pressure,cholesterol,
-    # fasting_blood_sugar,resting_ecg_results,max_hr_achieved,
-    # exercise_induced_angina,oldpeak,slope,num_major_vessels,
-    # thalassemia,target
 
     numeric_features = ["age", "resting_blood_pressure", "cholesterol", "max_hr_achieved", "oldpeak"]
     passthrough_features = ["sex", "chest_pain_type", "fasting_blood_sugar", "resting_ecg_results", "exercise_induced_angina", "slope", "num_major_vessels", "thalassemia"]
@@ -61,7 +67,6 @@ def model(training_path, test_path, to_path):
     )
 
     X_train, y_train = train_df.drop(columns=["target"]), train_df["target"]
-    X_test, y_test = test_df.drop(columns=["target"]), test_df["target"]
 
     pipe_lr = make_pipeline(
         preprocessor,
@@ -80,6 +85,7 @@ def model(training_path, test_path, to_path):
     results["log_reg"] = pd.DataFrame(cross_validate(pipe_lr, X_train, y_train, cv=5, return_train_score=True, scoring="f1")).agg(['mean','std']).round(3).T
 
     results_df = pd.concat(results, axis='columns')
+    print(f"Saving model artifacts to {to_path}")
     results_df.to_csv(os.path.join(to_path,"model_selection_results.csv"),index = True, header=results_df.columns)
 
     param_dist ={
@@ -87,6 +93,7 @@ def model(training_path, test_path, to_path):
         "svc__gamma": loguniform(1e-3, 1e3)  
     }
 
+    print(f"Finding optimal hyperparameters")
     random_search = RandomizedSearchCV(pipe_svm, param_distributions=param_dist, n_jobs=-1, n_iter=50, cv=5, random_state=123, refit="f1", scoring=["f1", "recall", "precision"], return_train_score=True)
     random_search.fit(X_train, y_train)
     optim_results_df = pd.DataFrame(random_search.cv_results_)[
@@ -117,17 +124,56 @@ def model(training_path, test_path, to_path):
     
     optim_results_df.to_csv(os.path.join(to_path,"optimization_results.csv"),index = True, header=optim_results_df.columns)
     
-    test_f1_score = random_search.score(X_test, y_test)
+    return random_search
+
+def test(test_path, model, to_path):
+    """
+    Test function that scores a fitted model on the test data using
+    the f1 metric.
+
+    Parameters
+    ----------
+    test_path : str
+        Path to test data [default: default_test]
+    model : sklearn estimator
+        Fitted model to test
+    to_path : str
+        Path to save the training results [default: default_to]
+    """
+    if (test_path is None):
+        test_path = default_test
+    if (to_path is None):
+        to_path = default_to
+    print(f"Reading test data from {test_path}")
+    test_df = pd.read_csv(test_path)
+    X_test, y_test = test_df.drop(columns=["target"]), test_df["target"]
+
+    test_predictions = model.predict(X_test)
+    test_f1_score = f1_score(y_test, test_predictions)
     print(f"The test f1 score was {test_f1_score}")
 
     cm = ConfusionMatrixDisplay.from_estimator(
-    random_search, X_test, y_test, values_format="d", display_labels = ["No Heart Disease", "Heart Disease"]
+    model, X_test, y_test, values_format="d", display_labels = ["No Heart Disease", "Heart Disease"]
     )
 
     cm.figure_.savefig(os.path.join(to_path,"confusion_matrix.png"))
 
 def main(training_path, test_path, to_path):
-    model(training_path, test_path, to_path)
+    """
+    Driver function that applies machine learning models on the data
+    and saves the artifacts that are generated.
+
+    Parameters
+    ----------
+    training_path : str
+        Path to the training data [default: default_training]
+    test_path : str
+        Path to test data [default: default_test]
+    to_path : str
+        Path to save the training results [default: default_to]
+    """
+    my_model = model(training_path, to_path)
+    test(test_path, my_model, to_path)
     
 if __name__ == "__main__":  
   main(opt["--training"], opt["--test"], opt["--to"])
