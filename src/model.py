@@ -33,6 +33,22 @@ default_to = os.path.join(os.path.dirname(__file__), os.pardir, "results")
 opt = docopt(__doc__)
 
 def model(training_path, to_path):
+    """
+    Function that first preprocesses the data, then conducts model selection between SVC and logistic regression, 
+    and finally conducts hyperparmeter optimization using RandomSearch.
+
+    Parameters
+    ----------
+    training_path : str
+        Path to training data [default: default_training]
+    to_path : str
+        Path to save the training results [default: default_to]
+
+    Returns
+    ----------
+    random_search: sklearn estimator
+        Fitted model with best parameters based on top f1 score using RandomSearch
+    """
     if (training_path is None):
         training_path = default_training
     if (to_path is None):
@@ -111,6 +127,19 @@ def model(training_path, to_path):
     return random_search
 
 def test(test_path, model, to_path):
+    """
+    Test function that scores a fitted model on the test data using
+    the f1 metric.
+
+    Parameters
+    ----------
+    test_path : str
+        Path to test data [default: default_test]
+    model : sklearn estimator
+        Fitted model to test
+    to_path : str
+        Path to save the training results [default: default_to]
+    """
     if (test_path is None):
         test_path = default_test
     if (to_path is None):
@@ -130,6 +159,19 @@ def test(test_path, model, to_path):
     cm.figure_.savefig(os.path.join(to_path,"confusion_matrix.png"))
 
 def main(training_path, test_path, to_path):
+    """
+    Driver function that applies machine learning models on the data
+    and saves the artifacts that are generated.
+
+    Parameters
+    ----------
+    training_path : str
+        Path to the training data [default: default_training]
+    test_path : str
+        Path to test data [default: default_test]
+    to_path : str
+        Path to save the training results [default: default_to]
+    """
     my_model = model(training_path, to_path)
     test(test_path, my_model, to_path)
     
