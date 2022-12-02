@@ -2,6 +2,16 @@
 # Author: DSCI 522 Group 17
 # Date: 2022-12-01
 
+# This makefile script retrieves, preprocess heart disease dataset,
+# and generate a final report including data visualization and machine
+# learning analysis. The main purpose of the project is predicting 
+# presence of heart disease from physiological indicators. This script 
+# takes no arguments. 
+
+# example usage:
+# make all
+# make heart.csv
+
 PROJECT_NAME := heart_disease_predictor
 CONDA_ENV := env_heart_disease_prediction
 CWD := $(shell pwd)
