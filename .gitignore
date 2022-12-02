@@ -131,3 +131,6 @@ dmypy.json
 .history
 _build
 .DS_Store
+
+# output of the make
+_output 
