@@ -1,4 +1,4 @@
-[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml)
+[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml) [![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](<YOUR URL HERE>)
 
 # Diagnosis of Heart Disease
 
@@ -55,7 +55,8 @@ Before jumping into finding the best model and hyperparameters, we will be explo
 ### Sharing the results
 All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html report.
 
-## Reproducibility
+
+# Reproducibility
 
 This repository is structured as follows:
 ```
@@ -94,6 +95,37 @@ $ conda activate env_heart_disease_prediction
   - pyppeteer
 ```
 
+We have included two options for reproducing the same resuls using this repository:
+1. **Using make**
+2. **Using interactive commands**
+
+Regardless of the method you choose, the pipeline steps are the same. The only difference is that using make will run all the steps automatically, while using interactive commands will require you to run each step manually.
+Below is a depiction of the pipeline steps (renderred by Github support for [Mermaid](https://github.com/mermaid-js/mermaid)):
+
+```mermaid
+stateDiagram-v2
+    [*] --> Download
+    Download --> Preprocess
+    Download --> heart.csv
+    Preprocess --> EDA
+    Preprocess --> train_heart.csv/test_heart.csv
+    EDA --> Train/Test
+    EDA --> *.png/*.csv
+    Train/Test --> Report
+    Train/Test --> *.png/csv
+    Report --> book.pdf
+    Report --> [*]
+```
+
+## Using make
+If you have make installed, you can run the following command in your terminal to run the pipeline from the root of the repository:
+```
+$ make all
+```
+This will run all the steps in the pipeline, and you will be able to find the results in the `_output` directory.
+
+
+## Using interactive commands
 To reproduce the results, and after cloning this repository, please follow these steps below:
 
 > **Important Note:** all the commands below are to be run from the src of the repository, and all of the scripts have sensible defaults that you can change by passing arguments to them. Arguments such as `--from` or `--to` are used to specify what to ingest as input and what to output as results. If you want to change the default values, you can do so by passing the argument to the script. For example, if you want to change the default value of the --from argument in the `eda.py` script, you can do.
@@ -126,7 +158,7 @@ $ python eda.py
 $ python model.py
 ```
 
-**To re-generate the html report**, run the following command in your terminal after changing directory to the `doc` directory:
+**To re-generate the html report**, run the following command in your terminal after changing directory to the `doc/heart_disease_prediction_report` directory:
 
 ```
 $ jupyter-book build . --builder pdfhtml
@@ -144,3 +176,10 @@ We welcome contributions to this project. Please see our [contributing guideline
 
 ### Code of Conduct
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+
+# Continuous Testing and Integration
+As an extra step to make sure that the code is working as expected, we have included a [Github Actions](https://github.com/features/actions) to run the pipeline automatically. This will run the pipeline on every push to the repository, and will fail if any of the steps fail. This is a good way to make sure that the code is working as expected, and that the results are reproducible.
+To check the status of the build and the logs, please click on the badge below:
+
+[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml)
