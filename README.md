@@ -122,7 +122,10 @@ If you have make installed, you can run the following command in your terminal t
 ```
 $ make all
 ```
-This will run all the steps in the pipeline, and you will be able to find the results in the `_output` directory.
+The command above will run all steps in the pipeline, and you will be able to find the results in the `_output` directory.
+
+> We have included an illustration of the graph of dependencies based on [makefile2graph](https://github.com/lindenb/makefile2graph) below:
+![](Makefile.png)
 
 
 ## Using interactive commands

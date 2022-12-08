@@ -19,14 +19,6 @@ RESULTS := $(CWD)/_output/results
 RAW := $(CWD)/_output/data/raw
 PROCESSED := $(CWD)/_output/data/processed
 
-init:
-	@mkdir -p $(CWD)/_output
-	@mkdir -p $(CWD)/_output/data
-	@mkdir -p $(PROCESSED)
-	@mkdir -p $(RAW)
-	@mkdir -p $(RESULTS)
-
-
 all: init _output/book.pdf
 
 # download data
@@ -58,3 +50,10 @@ _output/book.pdf : doc/heart_disease_prediction_report/_toc.yml _output/results/
 clean:
 	@rm -rf $(CWD)/_output
 	@rm -rf $(CWD)/doc/heart_disease_prediction_report/_build
+
+init:
+	@mkdir -p $(CWD)/_output
+	@mkdir -p $(CWD)/_output/data
+	@mkdir -p $(PROCESSED)
+	@mkdir -p $(RAW)
+	@mkdir -p $(RESULTS)
