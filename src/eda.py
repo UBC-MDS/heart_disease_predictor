@@ -127,7 +127,7 @@ def eda(from_path, to_path):
     )
     cate_dist = cate_dist.properties(title="Distribution of Categorical Features")
 
-    # `thalach` vs `oldpeak` for the two target classes
+    # `max_hr_achieved` vs `age` for the two target classes
     thalach_age_plot = (
         alt.Chart(train_df, title="Maximum heart rate vs. Age")
         .mark_circle()
