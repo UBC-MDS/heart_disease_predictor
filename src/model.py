@@ -1,5 +1,8 @@
-# author: 
-# date: 
+# author: Elena Ganacheva, Natalie Cho, Tony Zoght
+# date: 2022-11-18
+
+# Uses the docopt for command-line argument parsing and pandas to read the and save the dataset
+# - http://docopt.org/
 
 """
 A utility script to build and fit ML model(s)
