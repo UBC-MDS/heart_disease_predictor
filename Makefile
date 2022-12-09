@@ -42,7 +42,7 @@ _output/results/model_selection_results.csv  _output/results/optimization_result
 	@python src/model.py --training=_output/data/processed/train_heart.csv  --test=_output/data/processed/test_heart.csv --to=_output/results
 
 # render report
-_output/book.pdf : doc/heart_disease_prediction_report/_toc.yml doc/heart_disease_prediction_report/report_results.ipynb _output/results/model_selection_results.csv  _output/results/optimization_results.csv _output/results/confusion_matrix.png  _output/results/correlation_scatter.png  _output/results/thalach_vs_age.png _output/results/categorical_distributions.png _output/results/numeric_distributions.png _output/results/correlation_matrix.png _output/results/class_count.csv 
+_output/book.pdf : doc/heart_disease_prediction_report/_toc.yml _output/results/model_selection_results.csv  _output/results/optimization_results.csv _output/results/confusion_matrix.png  _output/results/correlation_scatter.png  _output/results/thalach_vs_age.png _output/results/categorical_distributions.png _output/results/numeric_distributions.png _output/results/correlation_matrix.png _output/results/class_count.csv 
 	@echo "generating the pdf report"
 	@cd doc/heart_disease_prediction_report && jupyter-book build . --builder pdfhtml
 	@cp doc/heart_disease_prediction_report/_build/pdf/book.pdf _output/book.pdf
