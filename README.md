@@ -138,7 +138,7 @@ To reproduce the results, and after cloning this repository, please follow these
 
 ```
 # Download the dataset, and save it in the data/raw directory
-$ python download_data.py
+$ python fetch_dataset.py
 ```
 
 **Step 2**:  From the same `src` directory run the following command in your terminal, to pre-process the data:
