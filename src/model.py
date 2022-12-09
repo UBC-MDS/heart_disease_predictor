@@ -32,6 +32,36 @@ default_to = os.path.join(os.path.dirname(__file__), os.pardir, "results")
 
 opt = docopt(__doc__)
 
+# Attributed to Varada, DSCI 571
+def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
+    """
+    Returns mean and std of cross validation
+
+    Parameters
+    ----------
+    model :
+        scikit-learn model
+    X_train : numpy array or pandas DataFrame
+        X in the training data
+    y_train :
+        y in the training data
+
+    Returns
+    ----------
+        pandas Series with mean scores from cross_validation
+    """
+
+    scores = cross_validate(model, X_train, y_train, **kwargs)
+
+    mean_scores = pd.DataFrame(scores).mean()
+    std_scores = pd.DataFrame(scores).std()
+    out_col = []
+
+    for i in range(len(mean_scores)):
+        out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores[i], std_scores[i])))
+
+    return pd.Series(data=out_col, index=mean_scores.index)
+
 def model(training_path, to_path):
     """
     Function that first preprocesses the data, then conducts model selection between SVC and logistic regression, 
@@ -80,9 +110,9 @@ def model(training_path, to_path):
     dc = DummyClassifier()
     results = {}
 
-    results["dummy"] = pd.DataFrame(cross_validate(dc, X_train, y_train, cv=5, return_train_score=True, scoring="f1")).agg(['mean','std']).round(3).T
-    results["SVM"] = pd.DataFrame(cross_validate(pipe_svm, X_train, y_train, cv=5, return_train_score=True, scoring="f1")).agg(['mean','std']).round(3).T
-    results["log_reg"] = pd.DataFrame(cross_validate(pipe_lr, X_train, y_train, cv=5, return_train_score=True, scoring="f1")).agg(['mean','std']).round(3).T
+    results["dummy"] = mean_std_cross_val_scores(dc, X_train, y_train, cv=5, return_train_score=True, scoring="f1")
+    results["SVM"] = mean_std_cross_val_scores(pipe_svm, X_train, y_train, cv=5, return_train_score=True, scoring="f1")
+    results["log_reg"] = mean_std_cross_val_scores(pipe_lr, X_train, y_train, cv=5, return_train_score=True, scoring="f1")
 
     results_df = pd.concat(results, axis='columns')
     print(f"Saving model artifacts to {to_path}")
