@@ -1,5 +1,6 @@
-# author:
-# date:
+# author: Yurui Feng, Tony Zoght
+# date: 2022-11-18
+
 # Uses the docopt for command-line argument parsing (add other packages used)
 # - http://docopt.org/
 
@@ -35,11 +36,11 @@ def eda(from_path, to_path):
         to_path = default_to
     print("\nPerforming EDA on the dataset:\n...\n")
     print(f"Reading data from {from_path}")
-    
+
     # create the to_path if it does not exist
     if not os.path.exists(to_path):
         os.makedirs(to_path)
-   
+
     # read train_df.csv
     train_df = pd.read_csv(from_path + "/train_heart.csv")
     test_df = pd.read_csv(from_path + "/test_heart.csv")
@@ -83,6 +84,7 @@ def eda(from_path, to_path):
     )
 
     combined_corr = (corr_plot + text).properties(height=600, width=600)
+    combined_corr = combined_corr.properties(title="Correlation Heatmap")
     # Analysis of numeric feature distributions
     numeric_cols = [
         "age",
