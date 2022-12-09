@@ -23,3 +23,10 @@ Note that the main branch is protected, and requires at least one review before 
    3. enhancement
    4. question
 2. Assign the issue to one of the maintainers listed on the [README.md](README.md), if you had a discussion with them about the issue, otherwise leave it unassigned.
+
+### How to build docker image
+
+To build the docker image, run the following command from the root directory of the project:
+``` 
+docker build --tag ubc_mds_grp17_heart_disease .
+```
