@@ -9,6 +9,7 @@
 - [Tony Zoght](https://github.com/tzoght)
 
 
+
 ### Proposal
 
 For this project, we will be using the [Heart Disease UCI](https://www.kaggle.com/ronitf/heart-disease-uci) dataset from the UC Irvine Machine Learning Repository to answer the question: given common early signs, from chest pain to resting ECG, can we predict the presence of heart disease?
@@ -46,6 +47,7 @@ After pre-processing, they are encoded in the dataset as follows:
 - #44 (num_major_vessels)
 - #51 (thalassemia)
 - #58 (num) (the predicted attribute)
+
 ### Methodology
 
 To answer the predictive question posed above, we will explore using different classifiers to predict the presence of heart disease, such as Logistic Regression, K-Nearest Neighbors, Decision Tree, and Support Vector Machine. We will also use the accuracy, precision, recall, and F1 score to judge how well the models work.
@@ -53,8 +55,10 @@ To answer the predictive question posed above, we will explore using different c
 Before jumping into finding the best model and hyperparameters, we will be exploring the data to see if there are any missing values, outliers, and if there are any correlations between the features. We will also use bar charts, histograms, and scatter plots to look at the data and learn more about it.
 
 ### Sharing the results
-All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted html report.
+All the reports, conclusions, and visualizations will be available from this github repository, in the form of Jupyter Notebooks, and hosted [html report](https://ubc-mds.github.io/heart_disease_predictor/index.html).
 
+### Project Report
+The project report is [hosted](https://ubc-mds.github.io/heart_disease_predictor/index.html), on GitHub Pages.
 
 # Reproducibility
 
@@ -65,12 +69,12 @@ This repository is structured as follows:
 ├── Dockerfile
 ├── LICENSE
 ├── Makefile
-├── Makefile.png
+├── Makefile.png, docker.png, make.png
 ├── README.md
 ├── data
 ├── doc
 ├── environment.yml
-├── html_report
+├── docs
 ├── results
 └── src
 ```
