@@ -1,4 +1,4 @@
-[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml) [![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](<YOUR URL HERE>)
+[![Python application](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/test_branch.yml) [![Jupyter Book Badge](https://jupyterbook.org/badge.svg)](<YOUR URL HERE>) [![Publish Docker Image](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/publish_docker.yml/badge.svg)](https://github.com/UBC-MDS/heart_disease_predictor/actions/workflows/publish_docker.yml)
 
 # Diagnosis of Heart Disease
 
