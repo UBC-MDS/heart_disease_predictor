@@ -62,16 +62,41 @@ This repository is structured as follows:
 ```
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
+├── Dockerfile
 ├── LICENSE
+├── Makefile
+├── Makefile.png
 ├── README.md
-├── book.pdf
 ├── data
 ├── doc
-├── docs
 ├── environment.yml
+├── html_report
 ├── results
 └── src
 ```
+
+## With Docker
+![](docker.png)
+
+To reproduce the results using Docker, you will need to have Docker installed on your machine. You can find the installation instructions [here](https://docs.docker.com/get-docker/).
+
+Once you have Docker installed, and have successfully cloned this repository, you can run the following command in your terminal, from the root of this repository, to use the Docker image to reproduce the results:
+
+```
+docker run -it --rm -v $(pwd):/home/heart_disease_predictor  tzoght/heart_disease_predictor make -C /home/heart_disease_predictor clean all
+```
+> **-v $(pwd):/home/heart_disease_predictor:** this command mounts the current directory (root of the repository) to the Docker container, so that the container can access the files in the current directory.
+> 
+> **tzoght/heart_disease_predictor**: the name of the Docker image that we have created and pushed to Docker Hub. You can find the Dockerfile [here](Dockerfile).
+
+To make clean and remove all the un-tracked files created by the Docker container, run the following command in your terminal:
+
+```
+docker run -it --rm -v $(pwd):/home/heart_disease_predictor  tzoght/heart_disease_predictor make -C /home/heart_disease_predictor clean
+```
+
+## With Make and Command Line
+![](make.png)
 
 Before you can start, make sure to install all the dependencies required and ready your environment to run. 
 * **If you have conda installed**, we have included a [`environment.yml`](environment.yml) file that you can use to create a conda environment with all the dependencies. To do so, run the following command in your terminal:
@@ -113,7 +138,7 @@ stateDiagram-v2
     EDA --> *.png/*.csv
     Train/Test --> Report
     Train/Test --> *.png/csv
-    Report --> book.pdf
+    Report --> html_report
     Report --> [*]
 ```
 
@@ -164,12 +189,11 @@ $ python model.py
 **To re-generate the html report**, run the following command in your terminal after changing directory to the `doc/heart_disease_prediction_report` directory:
 
 ```
-$ jupyter-book build . --builder pdfhtml
+$ jupyter-book build . --builder html
 ```
 
-A new directory called `_build` will be created in the `doc` directory, and the generated html report will be available in the `_build/pdf` directory.
+A new directory called `_build` will be created in the `doc` directory, and the generated html report will be available in the `_build/html` directory.
 
-For your convenience, we have also included the latest version of the [report](book.pdf) in the root directory. 
 
 ### License
 Artifacts in this repository are [licensed](LICENSE) under the Attribution-NonCommercial-NoDerivatives 4.0 International, also known as CC BY-NC-ND 4.0.
