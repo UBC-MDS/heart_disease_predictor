@@ -10,7 +10,6 @@
 
 # example usage:
 # make all
-# make heart.csv
 
 PROJECT_NAME := heart_disease_predictor
 CONDA_ENV := env_heart_disease_prediction
@@ -19,7 +18,7 @@ RESULTS := $(CWD)/results
 RAW := $(CWD)/data/raw
 PROCESSED := $(CWD)/data/processed
 
-all: html_report
+all: docs/index.html
 
 # download data
 data/raw/heart.csv : src/fetch_dataset.py
@@ -41,29 +40,23 @@ results/model_selection_results.csv  results/optimization_results.csv results/co
 	@echo "training the model"
 	@python src/model.py --training=data/processed/train_heart.csv  --test=data/processed/test_heart.csv --to=results
 
-# render report
-book.pdf : doc/heart_disease_prediction_report/_toc.yml results/model_selection_results.csv  results/optimization_results.csv results/confusion_matrix.png  results/correlation_scatter.png  results/thalach_vs_age.png results/categorical_distributions.png results/numeric_distributions.png results/correlation_matrix.png results/class_count.csv 
-	@echo "generating the pdf report"
-	@cd doc/heart_disease_prediction_report && jupyter-book build . --builder pdfhtml
-	@cp doc/heart_disease_prediction_report/_build/pdf/book.pdf book.pdf
-
 # generate the html report
-html_report : doc/heart_disease_prediction_report/_toc.yml results/model_selection_results.csv  results/optimization_results.csv results/confusion_matrix.png  results/correlation_scatter.png  results/thalach_vs_age.png results/categorical_distributions.png results/numeric_distributions.png results/correlation_matrix.png results/class_count.csv 
-	@echo "generating the html report"
+docs/index.html : doc/heart_disease_prediction_report/_toc.yml results/model_selection_results.csv  results/optimization_results.csv results/confusion_matrix.png  results/correlation_scatter.png  results/thalach_vs_age.png results/categorical_distributions.png results/numeric_distributions.png results/correlation_matrix.png results/class_count.csv 
+	@echo "generating the html report in docs/ so it can be hosted on GitHub Pages"
 	@cd doc/heart_disease_prediction_report && jupyter-book build . --builder html
-	@cp -r doc/heart_disease_prediction_report/_build/html/* html_report/
-#	@open html_report/index.html
+	@cp -r doc/heart_disease_prediction_report/_build/html/* docs
+	@touch docs/.nojekyll
 
 clean:
-	touch data/raw/heart.csv
-	# touch data/processed/test_heart.csv data/processed/train_heart.csv
-	# touch results/categorical_distributions.png results/correlation_scatter.png  results/thalach_vs_age.png results/numeric_distributions.png results/correlation_matrix.png results/class_count.csv
-	# touch results/model_selection_results.csv  results/optimization_results.csv results/confusion_matrix.png
-	# touch book.pdf
-	@rm -rf $(CWD)/doc/heart_disease_prediction_report/_build
+	touch src/fetch_dataset.py
+	touch data/processed/test_heart.csv && touch data/processed/train_heart.csv
+	touch results/correlation_scatter.png
+	touch results/model_selection_results.csv
+	touch docs/index.html
+	rm -rf $(CWD)/doc/heart_disease_prediction_report/_build
 
 init:
 	@mkdir -p $(PROCESSED)
 	@mkdir -p $(RAW)
 	@mkdir -p $(RESULTS)
-	@mkdir -p html_report
+	@mkdir -p docs

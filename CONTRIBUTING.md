@@ -28,5 +28,17 @@ Note that the main branch is protected, and requires at least one review before 
 
 To build the docker image, run the following command from the root directory of the project:
 ``` 
-docker build --tag ubc_mds_grp17_heart_disease .
+$ docker build --tag heart_disease_prediction .
 ```
+
+To regenerate the Makefile.png, run the following command from the root directory of the project:
+```
+$ docker run -it --rm -v $(pwd):/foo  ttimbers/makefile2graph
+``
+Then when you ssh to the docker container, run the following command:
+```
+$ cd foo
+$ makefile2graph > Makefile.dot
+$ dot -Tpng Makefile.dot -o Makefile.png
+```
+
